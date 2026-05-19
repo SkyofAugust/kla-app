@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Кла — умный друг для сложных решений</title>
+<title>Kla - decisions you won't regret</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0C1510;
-  --bg2: #111D16;
-  --bg3: #162019;
+  --bg: #061710;
+  --bg2: #0b1f16;
+  --bg3: #183125;
   --green: #3D6B4A;
   --gl: #4AA76B;
-  --cream: #F0EBE1;
+  --cream: #f4efdf;
   --muted: #4A6B56;
   --text: #DCE8DC;
   --text2: #7A9B82;
@@ -51,15 +51,15 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
 @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 @keyframes blink { 0%,85%,100%{transform:scaleY(1)} 92%{transform:scaleY(0.08)} }
 
-.ob-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--cream); margin-bottom: 12px; line-height: 1.2; }
-.ob-sub { font-size: 15px; color: var(--text2); line-height: 1.6; margin-bottom: 32px; }
+.ob-title { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--cream); margin-bottom: 12px; line-height: 1.15; letter-spacing: -0.3px; }
+.ob-sub { font-size: 15px; color: #c4d5c8; line-height: 1.5; margin-bottom: 28px; }
 .ob-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; font-size: 16px; color: var(--cream); font-family: 'DM Sans', sans-serif; outline: none; margin-bottom: 16px; transition: border-color 0.2s; }
 .ob-input:focus { border-color: rgba(74,167,107,0.4); }
 .ob-input::placeholder { color: var(--muted); }
 .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
-.chip { padding: 9px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--text2); cursor: pointer; background: transparent; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-.chip.sel { background: rgba(74,167,107,0.15); border-color: rgba(74,167,107,0.35); color: var(--gl); }
-.btn-main { width: 100%; background: var(--green); color: white; border: none; border-radius: 16px; padding: 17px; font-size: 16px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; }
+.chip { padding: 10px 17px; border: 2px solid rgba(244,239,223,0.45); border-radius: 999px; font-size: 13px; color: #dce8dc; cursor: pointer; background: transparent; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.chip.sel { background: #2fc254; border-color: #2fc254; color: #f4efdf; box-shadow: 0 0 18px rgba(47,194,84,0.45); }
+.btn-main { width: 100%; background: #3f6948; color: #f4efdf; border: none; border-radius: 18px; padding: 17px; font-size: 16px; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; }
 .btn-main:disabled { opacity: 0.35; }
 .btn-main:not(:disabled):active { opacity: 0.85; }
 .ob-step { font-size: 11px; color: var(--muted); margin-bottom: 20px; letter-spacing: 0.3px; }
@@ -185,9 +185,9 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
           <div class="kla-mouth"></div>
         </div>
       </div>
-      <h1 class="ob-title">Привет.<br>Я Кла.</h1>
-      <p class="ob-sub">Помогаю принимать решения которые ты не будешь жалеть. Не советую что делать — помогаю понять что ты уже знаешь внутри.</p>
-      <button class="btn-main" onclick="go('s-ob2')">Начать</button>
+      <h1 class="ob-title">Hi. I'm Kla.</h1>
+      <p class="ob-sub">I help you make decisions you won't regret.</p>
+      <button class="btn-main" onclick="go('s-ob2')">Let's start</button>
     </div>
   </div>
 
@@ -200,33 +200,33 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
           <div class="kla-mouth" style="width:18px;height:8px"></div>
         </div>
       </div>
-      <div class="ob-step">Шаг 1 из 2</div>
-      <h2 class="ob-title" style="font-size:26px">Как тебя зовут?</h2>
-      <p class="ob-sub" style="margin-bottom:20px">Кла запомнит и будет обращаться по имени.</p>
-      <input class="ob-input" id="name-input" type="text" placeholder="Твоё имя" oninput="checkName()" autocomplete="off">
-      <button class="btn-main" id="name-btn" onclick="go('s-ob3')" disabled>Дальше</button>
+      <div class="ob-step">step 1 of 5</div>
+      <h2 class="ob-title" style="font-size:26px">What's your name?</h2>
+      <p class="ob-sub" style="margin-bottom:20px">I'll remember it for future check-ins.</p>
+      <input class="ob-input" id="name-input" type="text" placeholder="Type your name" oninput="checkName()" autocomplete="off">
+      <button class="btn-main" id="name-btn" onclick="go('s-ob3')" disabled>Next</button>
     </div>
   </div>
 
   <!-- ══ ОНБОРДИНГ 3 — КОНТЕКСТ ══ -->
   <div class="screen" id="s-ob3">
     <div class="ob-wrap">
-      <div class="ob-step">Шаг 2 из 2</div>
-      <h2 class="ob-title" style="font-size:24px">Что сейчас активно<br>в твоей жизни?</h2>
-      <p class="ob-sub" style="margin-bottom:20px">Кла учтёт это в разборах. Выбери всё что актуально.</p>
+      <div class="ob-step">step 2 of 5</div>
+      <h2 class="ob-title" style="font-size:24px">What's happening in your life right now?</h2>
+      <p class="ob-sub" style="margin-bottom:20px">Pick all that apply.</p>
       <div class="chip-grid" id="context-chips">
-        <button class="chip" onclick="toggleChip(this,'Учёба')">Учёба</button>
-        <button class="chip" onclick="toggleChip(this,'Работа')">Работа</button>
-        <button class="chip" onclick="toggleChip(this,'Поиск работы')">Поиск работы</button>
-        <button class="chip" onclick="toggleChip(this,'Свой проект')">Свой проект</button>
-        <button class="chip" onclick="toggleChip(this,'Фриланс')">Фриланс</button>
-        <button class="chip" onclick="toggleChip(this,'Отношения')">Отношения</button>
-        <button class="chip" onclick="toggleChip(this,'Семья')">Семья</button>
-        <button class="chip" onclick="toggleChip(this,'Деньги')">Деньги</button>
-        <button class="chip" onclick="toggleChip(this,'Здоровье')">Здоровье</button>
-        <button class="chip" onclick="toggleChip(this,'Переезд')">Переезд</button>
+        <button class="chip" onclick="toggleChip(this,'Studies')">Studies</button>
+        <button class="chip" onclick="toggleChip(this,'Work')">Work</button>
+        <button class="chip" onclick="toggleChip(this,'Job search')">Job search</button>
+        <button class="chip" onclick="toggleChip(this,'Own project')">Own project</button>
+        <button class="chip" onclick="toggleChip(this,'Freelance')">Freelance</button>
+        <button class="chip" onclick="toggleChip(this,'Relationships')">Relationships</button>
+        <button class="chip" onclick="toggleChip(this,'Family')">Family</button>
+        <button class="chip" onclick="toggleChip(this,'Money')">Money</button>
+        <button class="chip" onclick="toggleChip(this,'Health')">Health</button>
+        <button class="chip" onclick="toggleChip(this,'Big changes')">Big changes</button>
       </div>
-      <button class="btn-main" onclick="finishOnboarding()">Поехали</button>
+      <button class="btn-main" onclick="finishOnboarding()">Continue</button>
     </div>
   </div>
 
@@ -270,10 +270,10 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
         <div class="np-dot"></div>
         <div class="np-dot"></div>
       </div>
-      <div class="nav-q">Что сейчас в голове?</div>
-      <div class="nav-hint">Пиши как другу — без структуры, просто что есть. Чем подробнее — тем точнее разбор.</div>
-      <textarea class="nav-textarea" id="situation-input" placeholder="Например: не знаю стоит ли брать новый заказ, боюсь не успеть..." oninput="checkSituation()"></textarea>
-      <button class="nav-next" id="nav1-btn" onclick="go('s-nav2')" style="margin-top:20px" disabled>Дальше</button>
+      <div class="nav-q">Tell me what's on your mind.</div>
+      <div class="nav-hint">Write freely - the more detail, the better.</div>
+      <textarea class="nav-textarea" id="situation-input" placeholder="Write freely — the more detail, the better" oninput="checkSituation()"></textarea>
+      <button class="nav-next" id="nav1-btn" onclick="go('s-nav2')" style="margin-top:20px" disabled>Next</button>
     </div>
   </div>
 
@@ -286,21 +286,21 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
         <div class="np-dot done"></div>
         <div class="np-dot"></div>
       </div>
-      <div class="nav-q">Как долго это в голове?</div>
+      <div class="nav-q">How long has this been on your mind?</div>
       <div class="nav-chips" id="time-chips">
-        <button class="nav-chip" onclick="selectTime(this,'Только что возникло')">Только что</button>
-        <button class="nav-chip" onclick="selectTime(this,'Несколько дней')">Несколько дней</button>
-        <button class="nav-chip" onclick="selectTime(this,'Недели')">Недели</button>
-        <button class="nav-chip" onclick="selectTime(this,'Месяцы и дольше')">Месяцы</button>
+        <button class="nav-chip" onclick="selectTime(this,'Just now')">Just now</button>
+        <button class="nav-chip" onclick="selectTime(this,'A few days')">A few days</button>
+        <button class="nav-chip" onclick="selectTime(this,'Weeks')">Weeks</button>
+        <button class="nav-chip" onclick="selectTime(this,'Months')">Months</button>
       </div>
-      <div class="nav-q" style="margin-top:8px">Кто влияет на это решение?</div>
+      <div class="nav-q" style="margin-top:8px">Who influences this decision?</div>
       <div class="nav-chips" id="influence-chips">
-        <button class="nav-chip" onclick="selectInfluence(this,'Только я')">Только я</button>
-        <button class="nav-chip" onclick="selectInfluence(this,'Семья или партнёр')">Семья / партнёр</button>
-        <button class="nav-chip" onclick="selectInfluence(this,'Коллеги или друзья')">Друзья</button>
-        <button class="nav-chip" onclick="selectInfluence(this,'Финансовые обязательства')">Финансы</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Only me')">Only me</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Family or partner')">Family / partner</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Friends or colleagues')">Friends</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Financial pressure')">Money pressure</button>
       </div>
-      <button class="nav-next" id="nav2-btn" onclick="analyzeDecision()" disabled>Получить разбор от Клы</button>
+      <button class="nav-next" id="nav2-btn" onclick="analyzeDecision()" disabled>Analyze</button>
     </div>
   </div>
 
@@ -316,8 +316,8 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; ju
       <div class="loading-dots">
         <div class="ldot"></div><div class="ldot"></div><div class="ldot"></div>
       </div>
-      <div class="loading-text">Кла читает между строк...</div>
-      <div class="loading-sub">Анализирую по 8 психологическим факторам</div>
+      <div class="loading-text">Kla is reading between the lines...</div>
+      <div class="loading-sub">Analyzing 8 psychological factors</div>
     </div>
   </div>
 
