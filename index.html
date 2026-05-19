@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Кла — умный друг для сложных решений</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0C1510;
+  --bg2: #111D16;
+  --bg3: #162019;
+  --green: #3D6B4A;
+  --gl: #4AA76B;
+  --cream: #F0EBE1;
+  --muted: #4A6B56;
+  --text: #DCE8DC;
+  --text2: #7A9B82;
+  --border: rgba(74,167,107,0.12);
+  --amber: #E8A838;
+  --red: #C45A3A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: #080F0B; }
+body { font-family: 'DM Sans', sans-serif; color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 0; }
+
+.phone {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ЭКРАНЫ */
+.screen { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.3s ease; }
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══ ОНБОРДИНГ ══ */
+.ob-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 28px; text-align: center; }
+.kla-orb { width: 100px; height: 100px; background: radial-gradient(circle at 35% 35%, #5A9B6A, #2D5A3A); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; animation: float 3s ease-in-out infinite; box-shadow: 0 0 40px rgba(74,167,107,0.3); }
+.kla-orb-face { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.kla-eyes-row { display: flex; gap: 14px; }
+.kla-eye { width: 11px; height: 11px; background: var(--cream); border-radius: 50%; animation: blink 4s ease-in-out infinite; }
+.kla-mouth { width: 24px; height: 11px; border: 3px solid var(--cream); border-top: none; border-radius: 0 0 12px 12px; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes blink { 0%,85%,100%{transform:scaleY(1)} 92%{transform:scaleY(0.08)} }
+
+.ob-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--cream); margin-bottom: 12px; line-height: 1.2; }
+.ob-sub { font-size: 15px; color: var(--text2); line-height: 1.6; margin-bottom: 32px; }
+.ob-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; font-size: 16px; color: var(--cream); font-family: 'DM Sans', sans-serif; outline: none; margin-bottom: 16px; transition: border-color 0.2s; }
+.ob-input:focus { border-color: rgba(74,167,107,0.4); }
+.ob-input::placeholder { color: var(--muted); }
+.chip-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 24px; }
+.chip { padding: 9px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--text2); cursor: pointer; background: transparent; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.chip.sel { background: rgba(74,167,107,0.15); border-color: rgba(74,167,107,0.35); color: var(--gl); }
+.btn-main { width: 100%; background: var(--green); color: white; border: none; border-radius: 16px; padding: 17px; font-size: 16px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; }
+.btn-main:disabled { opacity: 0.35; }
+.btn-main:not(:disabled):active { opacity: 0.85; }
+.ob-step { font-size: 11px; color: var(--muted); margin-bottom: 20px; letter-spacing: 0.3px; }
+
+/* ══ ГЛАВНЫЙ ЭКРАН ══ */
+.home-header { padding: 52px 22px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+.home-greeting-sub { font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+.home-name { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--cream); }
+.home-avatar { width: 40px; height: 40px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 1.5px solid rgba(74,167,107,0.3); }
+
+.kla-bubble { margin: 16px 18px 0; background: rgba(61,107,74,0.12); border: 1px solid rgba(74,167,107,0.15); border-radius: 16px; padding: 14px 16px; display: flex; gap: 12px; cursor: pointer; }
+.kla-mini { width: 34px; height: 34px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+.kla-bubble-text .lbl { font-size: 10px; color: var(--gl); font-weight: 600; letter-spacing: 0.4px; margin-bottom: 3px; }
+.kla-bubble-text .msg { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.home-feed { flex: 1; overflow-y: auto; padding: 16px 18px 100px; }
+.feed-section-lbl { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; margin: 14px 0 8px; }
+
+.dec-card { background: rgba(22,32,25,0.95); border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 10px; cursor: pointer; position: relative; overflow: hidden; transition: transform 0.15s; }
+.dec-card:active { transform: scale(0.98); }
+.dec-card::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 2px 2px 0; }
+.dec-card.open::before { background: var(--gl); }
+.dec-card.pending::before { background: var(--amber); animation: pulse-side 2s ease-in-out infinite; }
+.dec-card.closed::before { background: var(--muted); }
+@keyframes pulse-side { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.dec-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.dec-cat { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; }
+.dec-badge { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 8px; }
+.badge-open { background: rgba(74,167,107,0.12); color: var(--gl); }
+.badge-pending { background: rgba(232,168,56,0.12); color: var(--amber); }
+.badge-closed { background: rgba(255,255,255,0.06); color: var(--text2); }
+.dec-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--cream); line-height: 1.3; margin-bottom: 8px; }
+.dec-meta { display: flex; gap: 10px; align-items: center; }
+.dec-date { font-size: 11px; color: var(--text2); }
+.stress-row { display: flex; gap: 2px; align-items: center; }
+.sdot { width: 5px; height: 5px; border-radius: 50%; background: var(--bg3); }
+.sdot.s1 { background: var(--gl); }
+.sdot.s2 { background: var(--amber); }
+.sdot.s3 { background: var(--red); }
+
+.home-fab { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: calc(100% - 80px); max-width: 310px; background: var(--green); color: white; border: none; border-radius: 18px; padding: 17px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; box-shadow: 0 8px 30px rgba(61,107,74,0.45); display: flex; align-items: center; justify-content: center; gap: 8px; z-index: 20; transition: all 0.2s; }
+.home-fab:active { transform: translateX(-50%) scale(0.97); }
+
+/* ══ НАВИГАТОР ══ */
+.nav-screen { flex: 1; display: flex; flex-direction: column; padding: 52px 24px 40px; }
+.nav-progress { display: flex; gap: 5px; margin-bottom: 28px; }
+.np-dot { height: 3px; flex: 1; border-radius: 2px; background: rgba(255,255,255,0.1); transition: background 0.3s; }
+.np-dot.done { background: var(--gl); }
+.nav-q { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--cream); line-height: 1.3; margin-bottom: 8px; }
+.nav-hint { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+.nav-textarea { width: 100%; flex: 0 0 auto; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 16px; padding: 16px; font-size: 15px; color: var(--cream); font-family: 'DM Sans', sans-serif; resize: none; height: 160px; outline: none; line-height: 1.6; transition: border-color 0.2s; }
+.nav-textarea:focus { border-color: rgba(74,167,107,0.35); }
+.nav-textarea::placeholder { color: var(--muted); }
+.nav-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.nav-chip { padding: 11px 18px; border: 1px solid var(--border); border-radius: 22px; font-size: 14px; color: var(--text2); cursor: pointer; background: transparent; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.nav-chip.sel { background: rgba(74,167,107,0.15); border-color: rgba(74,167,107,0.3); color: var(--gl); }
+.nav-next { width: 100%; background: var(--green); color: white; border: none; border-radius: 16px; padding: 17px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; margin-top: auto; opacity: 0.3; transition: opacity 0.2s; }
+.nav-next.go { opacity: 1; }
+.nav-back { background: none; border: none; color: var(--text2); font-size: 22px; cursor: pointer; margin-bottom: 8px; text-align: left; padding: 0; }
+
+/* ══ ЗАГРУЗКА ══ */
+.loading-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
+.spinner-orb { width: 80px; height: 80px; background: radial-gradient(circle at 35% 35%, #5A9B6A, #2D5A3A); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; animation: float 2s ease-in-out infinite; box-shadow: 0 0 30px rgba(74,167,107,0.3); }
+.loading-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; }
+.ldot { width: 6px; height: 6px; border-radius: 50%; background: var(--gl); animation: ldot 1.2s ease-in-out infinite; }
+.ldot:nth-child(2) { animation-delay: 0.2s; }
+.ldot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ldot { 0%,80%,100%{transform:scale(0.6);opacity:0.3} 40%{transform:scale(1);opacity:1} }
+.loading-text { font-size: 15px; color: var(--text2); margin-bottom: 6px; }
+.loading-sub { font-size: 12px; color: var(--muted); }
+
+/* ══ РЕЗУЛЬТАТ ══ */
+.result-screen { flex: 1; overflow-y: auto; padding: 52px 22px 40px; }
+.verdict-row { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.verdict-orb { width: 52px; height: 52px; background: radial-gradient(circle at 35% 35%, #5A9B6A, #2D5A3A); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.verdict-orb-face { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.verdict-orb-eyes { display: flex; gap: 8px; }
+.verdict-orb-eye { width: 7px; height: 7px; background: var(--cream); border-radius: 50%; }
+.verdict-orb-mouth { width: 14px; height: 7px; border: 2px solid var(--cream); border-top: none; border-radius: 0 0 7px 7px; }
+.verdict-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+.verdict-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+.r-card { background: rgba(22,32,25,0.95); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+.r-card.highlight { background: rgba(61,107,74,0.12); border-color: rgba(74,167,107,0.2); }
+.r-lbl { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 7px; }
+.r-text { font-size: 14px; color: var(--text); line-height: 1.65; }
+.r-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.r-grid .r-card { margin: 0; }
+.r-text-sm { font-size: 12px; color: var(--text); line-height: 1.6; }
+.r-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.r-tag { font-size: 11px; padding: 4px 10px; border-radius: 10px; background: rgba(61,107,74,0.12); color: var(--gl); border: 1px solid rgba(74,167,107,0.15); }
+.r-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.btn-save { width: 100%; background: var(--green); color: white; border: none; border-radius: 14px; padding: 16px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.btn-skip { width: 100%; background: transparent; border: 1px solid var(--border); border-radius: 14px; padding: 14px; font-size: 14px; color: var(--text2); font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+/* SHEET */
+.sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.sheet-overlay.open { opacity: 1; pointer-events: all; }
+.sheet { width: 100%; max-width: 390px; background: var(--bg2); border-radius: 28px 28px 0 0; padding: 12px 22px 48px; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; overflow-y: auto; }
+.sheet-overlay.open .sheet { transform: translateY(0); }
+.sheet-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.12); border-radius: 2px; margin: 0 auto 20px; }
+.sheet-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--cream); margin-bottom: 4px; }
+.sheet-cat { font-size: 10px; color: var(--gl); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+.sheet-section { margin-bottom: 14px; }
+.sheet-lbl { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 5px; }
+.sheet-text { font-size: 13px; color: var(--text); line-height: 1.65; }
+.sheet-close { width: 100%; margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: var(--text2); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+/* ERROR */
+.error-box { background: rgba(196,90,58,0.1); border: 1px solid rgba(196,90,58,0.2); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; font-size: 13px; color: #E08060; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- ══ ОНБОРДИНГ 1 — ПРИВЕТСТВИЕ ══ -->
+  <div class="screen active" id="s-ob1">
+    <div class="ob-wrap">
+      <div class="kla-orb">
+        <div class="kla-orb-face">
+          <div class="kla-eyes-row"><div class="kla-eye"></div><div class="kla-eye"></div></div>
+          <div class="kla-mouth"></div>
+        </div>
+      </div>
+      <h1 class="ob-title">Привет.<br>Я Кла.</h1>
+      <p class="ob-sub">Помогаю принимать решения которые ты не будешь жалеть. Не советую что делать — помогаю понять что ты уже знаешь внутри.</p>
+      <button class="btn-main" onclick="go('s-ob2')">Начать</button>
+    </div>
+  </div>
+
+  <!-- ══ ОНБОРДИНГ 2 — ИМЯ ══ -->
+  <div class="screen" id="s-ob2">
+    <div class="ob-wrap">
+      <div class="kla-orb" style="width:60px;height:60px;margin-bottom:16px">
+        <div class="kla-orb-face">
+          <div class="kla-eyes-row"><div class="kla-eye" style="width:8px;height:8px"></div><div class="kla-eye" style="width:8px;height:8px"></div></div>
+          <div class="kla-mouth" style="width:18px;height:8px"></div>
+        </div>
+      </div>
+      <div class="ob-step">Шаг 1 из 2</div>
+      <h2 class="ob-title" style="font-size:26px">Как тебя зовут?</h2>
+      <p class="ob-sub" style="margin-bottom:20px">Кла запомнит и будет обращаться по имени.</p>
+      <input class="ob-input" id="name-input" type="text" placeholder="Твоё имя" oninput="checkName()" autocomplete="off">
+      <button class="btn-main" id="name-btn" onclick="go('s-ob3')" disabled>Дальше</button>
+    </div>
+  </div>
+
+  <!-- ══ ОНБОРДИНГ 3 — КОНТЕКСТ ══ -->
+  <div class="screen" id="s-ob3">
+    <div class="ob-wrap">
+      <div class="ob-step">Шаг 2 из 2</div>
+      <h2 class="ob-title" style="font-size:24px">Что сейчас активно<br>в твоей жизни?</h2>
+      <p class="ob-sub" style="margin-bottom:20px">Кла учтёт это в разборах. Выбери всё что актуально.</p>
+      <div class="chip-grid" id="context-chips">
+        <button class="chip" onclick="toggleChip(this,'Учёба')">Учёба</button>
+        <button class="chip" onclick="toggleChip(this,'Работа')">Работа</button>
+        <button class="chip" onclick="toggleChip(this,'Поиск работы')">Поиск работы</button>
+        <button class="chip" onclick="toggleChip(this,'Свой проект')">Свой проект</button>
+        <button class="chip" onclick="toggleChip(this,'Фриланс')">Фриланс</button>
+        <button class="chip" onclick="toggleChip(this,'Отношения')">Отношения</button>
+        <button class="chip" onclick="toggleChip(this,'Семья')">Семья</button>
+        <button class="chip" onclick="toggleChip(this,'Деньги')">Деньги</button>
+        <button class="chip" onclick="toggleChip(this,'Здоровье')">Здоровье</button>
+        <button class="chip" onclick="toggleChip(this,'Переезд')">Переезд</button>
+      </div>
+      <button class="btn-main" onclick="finishOnboarding()">Поехали</button>
+    </div>
+  </div>
+
+  <!-- ══ ГЛАВНЫЙ ЭКРАН ══ -->
+  <div class="screen" id="s-home">
+    <div class="home-header">
+      <div>
+        <div class="home-greeting-sub" id="home-date">вторник, 20 мая</div>
+        <div class="home-name" id="home-name">Привет, Андрей.</div>
+      </div>
+      <div class="home-avatar">🌿</div>
+    </div>
+
+    <div class="kla-bubble" onclick="cycleInsight()">
+      <div class="kla-mini">👁</div>
+      <div class="kla-bubble-text">
+        <div class="lbl">Кла говорит</div>
+        <div class="msg" id="home-insight">Есть решение которое застряло? Давай разберём — займёт минуту.</div>
+      </div>
+    </div>
+
+    <div class="home-feed" id="home-feed">
+      <div class="feed-section-lbl">Твои решения</div>
+      <div id="decisions-list"></div>
+      <div id="empty-state" style="text-align:center;padding:40px 20px;display:none">
+        <div style="font-size:32px;margin-bottom:12px">🌱</div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);margin-bottom:8px">Пока пусто</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Запиши первое решение — и Кла начнёт строить твой профиль</div>
+      </div>
+    </div>
+
+    <button class="home-fab" onclick="startNav()">+ Записать решение</button>
+  </div>
+
+  <!-- ══ НАВИГАТОР — ТЕКСТ ══ -->
+  <div class="screen" id="s-nav1">
+    <div class="nav-screen">
+      <button class="nav-back" onclick="go('s-home')">←</button>
+      <div class="nav-progress">
+        <div class="np-dot done"></div>
+        <div class="np-dot"></div>
+        <div class="np-dot"></div>
+      </div>
+      <div class="nav-q">Что сейчас в голове?</div>
+      <div class="nav-hint">Пиши как другу — без структуры, просто что есть. Чем подробнее — тем точнее разбор.</div>
+      <textarea class="nav-textarea" id="situation-input" placeholder="Например: не знаю стоит ли брать новый заказ, боюсь не успеть..." oninput="checkSituation()"></textarea>
+      <button class="nav-next" id="nav1-btn" onclick="go('s-nav2')" style="margin-top:20px" disabled>Дальше</button>
+    </div>
+  </div>
+
+  <!-- ══ НАВИГАТОР — ВОПРОСЫ ══ -->
+  <div class="screen" id="s-nav2">
+    <div class="nav-screen">
+      <button class="nav-back" onclick="go('s-nav1')">←</button>
+      <div class="nav-progress">
+        <div class="np-dot done"></div>
+        <div class="np-dot done"></div>
+        <div class="np-dot"></div>
+      </div>
+      <div class="nav-q">Как долго это в голове?</div>
+      <div class="nav-chips" id="time-chips">
+        <button class="nav-chip" onclick="selectTime(this,'Только что возникло')">Только что</button>
+        <button class="nav-chip" onclick="selectTime(this,'Несколько дней')">Несколько дней</button>
+        <button class="nav-chip" onclick="selectTime(this,'Недели')">Недели</button>
+        <button class="nav-chip" onclick="selectTime(this,'Месяцы и дольше')">Месяцы</button>
+      </div>
+      <div class="nav-q" style="margin-top:8px">Кто влияет на это решение?</div>
+      <div class="nav-chips" id="influence-chips">
+        <button class="nav-chip" onclick="selectInfluence(this,'Только я')">Только я</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Семья или партнёр')">Семья / партнёр</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Коллеги или друзья')">Друзья</button>
+        <button class="nav-chip" onclick="selectInfluence(this,'Финансовые обязательства')">Финансы</button>
+      </div>
+      <button class="nav-next" id="nav2-btn" onclick="analyzeDecision()" disabled>Получить разбор от Клы</button>
+    </div>
+  </div>
+
+  <!-- ══ ЗАГРУЗКА ══ -->
+  <div class="screen" id="s-loading">
+    <div class="loading-screen">
+      <div class="spinner-orb">
+        <div class="kla-orb-face">
+          <div class="kla-eyes-row"><div class="kla-eye" style="width:9px;height:9px"></div><div class="kla-eye" style="width:9px;height:9px"></div></div>
+          <div class="kla-mouth" style="width:20px;height:9px"></div>
+        </div>
+      </div>
+      <div class="loading-dots">
+        <div class="ldot"></div><div class="ldot"></div><div class="ldot"></div>
+      </div>
+      <div class="loading-text">Кла читает между строк...</div>
+      <div class="loading-sub">Анализирую по 8 психологическим факторам</div>
+    </div>
+  </div>
+
+  <!-- ══ РЕЗУЛЬТАТ ══ -->
+  <div class="screen" id="s-result">
+    <div class="result-screen" id="result-content"></div>
+  </div>
+
+</div>
+
+<!-- SHEET -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div id="sheet-body"></div>
+  </div>
+</div>
+
+<script>
+// ══ КОНФИГ ══
+const SUPABASE_URL = 'https://zjquwkcmsxtcxhvqvobt.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqcXV3a2Ntc3h0Y3hodnF2b2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNzg4MzksImV4cCI6MjA5NDc1NDgzOX0.SFG6xtwjxZVtN8FDKjHKSlMIN3t__tDb16nIdBdms7E';
+const EDGE_URL = `${SUPABASE_URL}/functions/v1/kla-analyze`;
+
+// ══ СТЕЙТ ══
+let state = {
+  name: '',
+  lifeContext: [],
+  situation: '',
+  timeOnMind: '',
+  influence: '',
+  behaviorData: {},
+  decisions: JSON.parse(localStorage.getItem('kla_decisions') || '[]')
+};
+
+// Поведенческие данные
+let firstKeyAt = null, backspaceCount = 0, pauseCount = 0, lastKeyAt = null;
+
+// ══ НАВИГАЦИЯ ══
+function go(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ══ ОНБОРДИНГ ══
+function checkName() {
+  const val = document.getElementById('name-input').value.trim();
+  document.getElementById('name-btn').disabled = val.length < 1;
+  state.name = val;
+}
+
+const selectedCtx = new Set();
+function toggleChip(el, val) {
+  if (selectedCtx.has(val)) { selectedCtx.delete(val); el.classList.remove('sel'); }
+  else { selectedCtx.add(val); el.classList.add('sel'); }
+}
+
+function finishOnboarding() {
+  state.name = document.getElementById('name-input').value.trim() || 'друг';
+  state.lifeContext = [...selectedCtx];
+  localStorage.setItem('kla_name', state.name);
+  localStorage.setItem('kla_context', JSON.stringify(state.lifeContext));
+  setupHome();
+  go('s-home');
+}
+
+// ══ ГЛАВНЫЙ ЭКРАН ══
+const insights = [
+  'Есть решение которое застряло? Давай разберём — займёт минуту.',
+  'Чем больше решений ты фиксируешь — тем точнее я понимаю твои паттерны.',
+  'Я замечаю не только что ты пишешь, но и как. Это помогает понять настоящее состояние.',
+  'Лучшие решения принимаются не в спешке. Запиши — и вместе разберём.'
+];
+let insightIdx = 0;
+
+function cycleInsight() {
+  insightIdx = (insightIdx + 1) % insights.length;
+  const el = document.getElementById('home-insight');
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = insights[insightIdx]; el.style.opacity = '1'; el.style.transition = 'opacity 0.3s'; }, 150);
+}
+
+function setupHome() {
+  const name = state.name || localStorage.getItem('kla_name') || '';
+  const now = new Date();
+  const days = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  document.getElementById('home-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+  document.getElementById('home-name').textContent = `Привет, ${name}.`;
+  renderDecisions();
+}
+
+function renderDecisions() {
+  const list = document.getElementById('decisions-list');
+  const empty = document.getElementById('empty-state');
+  const decisions = JSON.parse(localStorage.getItem('kla_decisions') || '[]');
+  if (decisions.length === 0) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = decisions.slice().reverse().map((d, i) => {
+    const stress = d.stress_score || 5;
+    const stressClass = stress >= 7 ? 's3' : stress >= 5 ? 's2' : 's1';
+    const dots = Array.from({length:10},(_,j)=>`<div class="sdot ${j<stress?stressClass:''}"></div>`).join('');
+    const badge = d.status === 'open' ? '<span class="dec-badge badge-open">Открытое</span>' : '<span class="dec-badge badge-closed">Закрыто</span>';
+    const cardClass = d.status === 'open' ? 'open' : 'closed';
+    const daysAgo = Math.floor((Date.now() - d.created_at) / 86400000);
+    const dateStr = daysAgo === 0 ? 'сегодня' : daysAgo === 1 ? 'вчера' : `${daysAgo} дн. назад`;
+    return `<div class="dec-card ${cardClass}" onclick="openDecision(${decisions.length-1-i})">
+      <div class="dec-top"><div class="dec-cat">${d.category || 'другое'}</div>${badge}</div>
+      <div class="dec-title">${d.situation.slice(0,80)}${d.situation.length>80?'...':''}</div>
+      <div class="dec-meta"><span class="dec-date">${dateStr}</span><div class="stress-row">${dots}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function openDecision(idx) {
+  const decisions = JSON.parse(localStorage.getItem('kla_decisions') || '[]');
+  const d = decisions[idx];
+  if (!d) return;
+  document.getElementById('sheet-body').innerHTML = `
+    <div class="sheet-cat">${d.category || 'другое'}</div>
+    <div class="sheet-title">${d.situation.slice(0,100)}${d.situation.length>100?'...':''}</div>
+    <div class="sheet-section"><div class="sheet-lbl">Кла говорит</div><div class="sheet-text">${d.kla_says || '—'}</div></div>
+    <div class="sheet-section"><div class="sheet-lbl">Скрытый фактор</div><div class="sheet-text">${d.hidden_factor || '—'}</div></div>
+    <div class="sheet-section"><div class="sheet-lbl">Один шаг</div><div class="sheet-text">${d.next_step || '—'}</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
+      <span class="r-tag">${d.category || 'другое'}</span>
+      <span class="r-tag">стресс ${d.stress_score || '?'}/10</span>
+    </div>
+    <button class="sheet-close" onclick="closeSheet()">Закрыть</button>
+  `;
+  document.getElementById('sheet-overlay').classList.add('open');
+}
+
+// ══ НАВИГАТОР ══
+function startNav() {
+  firstKeyAt = null; backspaceCount = 0; pauseCount = 0; lastKeyAt = null;
+  state.timeOnMind = ''; state.influence = '';
+  document.getElementById('situation-input').value = '';
+  document.getElementById('nav1-btn').disabled = true;
+  document.querySelectorAll('#time-chips .nav-chip, #influence-chips .nav-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('nav2-btn').disabled = true;
+  go('s-nav1');
+
+  // Поведенческий трекинг
+  const ta = document.getElementById('situation-input');
+  ta.addEventListener('keydown', trackKey);
+}
+
+function trackKey(e) {
+  const now = Date.now();
+  if (!firstKeyAt) firstKeyAt = now;
+  if (e.key === 'Backspace') backspaceCount++;
+  if (lastKeyAt && now - lastKeyAt > 3000) pauseCount++;
+  lastKeyAt = now;
+}
+
+function checkSituation() {
+  const val = document.getElementById('situation-input').value.trim();
+  state.situation = val;
+  document.getElementById('nav1-btn').disabled = val.length < 10;
+}
+
+function selectTime(el, val) {
+  document.querySelectorAll('#time-chips .nav-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  state.timeOnMind = val;
+  checkNav2();
+}
+
+function selectInfluence(el, val) {
+  document.querySelectorAll('#influence-chips .nav-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  state.influence = val;
+  checkNav2();
+}
+
+function checkNav2() {
+  document.getElementById('nav2-btn').disabled = !(state.timeOnMind && state.influence);
+}
+
+async function analyzeDecision() {
+  const writingSeconds = firstKeyAt ? Math.round((lastKeyAt - firstKeyAt) / 1000) : 0;
+  state.behaviorData = {
+    writingSeconds,
+    deletions: backspaceCount,
+    pauses: pauseCount,
+    wordCount: state.situation.trim().split(/\s+/).length
+  };
+
+  go('s-loading');
+
+  try {
+    const res = await fetch(EDGE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify({
+        situation: state.situation,
+        behaviorData: state.behaviorData,
+        lifeContext: state.lifeContext.join(', '),
+        name: state.name,
+        timeOnMind: state.timeOnMind,
+        influence: state.influence
+      })
+    });
+
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
+    showResult(result);
+  } catch(e) {
+    showError(e.message);
+  }
+}
+
+function showResult(r) {
+  const verdictColor = r.verdict_color || '#4AA76B';
+  document.getElementById('result-content').innerHTML = `
+    <div class="verdict-row">
+      <div class="verdict-orb">
+        <div class="verdict-orb-face">
+          <div class="verdict-orb-eyes"><div class="verdict-orb-eye"></div><div class="verdict-orb-eye"></div></div>
+          <div class="verdict-orb-mouth"></div>
+        </div>
+      </div>
+      <div>
+        <div class="verdict-text" style="color:${verdictColor}">${r.verdict}</div>
+        <div class="verdict-sub">разбор по 8 факторам</div>
+      </div>
+    </div>
+
+    <div class="r-card highlight">
+      <div class="r-lbl">Кла говорит</div>
+      <div class="r-text">${r.kla_says}</div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-lbl">Скрытый фактор</div>
+      <div class="r-text">${r.hidden_factor}</div>
+    </div>
+
+    <div class="r-grid">
+      <div class="r-card">
+        <div class="r-lbl">Если идёшь</div>
+        <div class="r-text-sm">${r.risk_if_yes}</div>
+      </div>
+      <div class="r-card">
+        <div class="r-lbl">Если нет</div>
+        <div class="r-text-sm">${r.loss_if_no}</div>
+      </div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-lbl">Про твоё состояние</div>
+      <div class="r-text">${r.stress_note}</div>
+    </div>
+
+    <div class="r-card highlight">
+      <div class="r-lbl">Один шаг прямо сейчас</div>
+      <div class="r-text">${r.next_step}</div>
+    </div>
+
+    <div class="r-tags">
+      <span class="r-tag">${r.category}</span>
+      <span class="r-tag">стресс ${r.stress_score}/10</span>
+      <span class="r-tag">проверка через ${r.check_in_days} дн.</span>
+    </div>
+
+    <div class="r-actions">
+      <button class="btn-save" onclick="saveDecision(${JSON.stringify(r).split('"').join("'")})">Сохранить в историю</button>
+      <button class="btn-skip" onclick="go('s-home')">Не сохранять</button>
+    </div>
+  `;
+  go('s-result');
+}
+
+function saveDecision(r) {
+  if (typeof r === 'string') {
+    try { r = JSON.parse(r.split("'").join('"')); } catch(e) {}
+  }
+  const decisions = JSON.parse(localStorage.getItem('kla_decisions') || '[]');
+  decisions.push({
+    ...r,
+    situation: state.situation,
+    status: 'open',
+    created_at: Date.now()
+  });
+  localStorage.setItem('kla_decisions', JSON.stringify(decisions));
+  renderDecisions();
+  go('s-home');
+}
+
+function showError(msg) {
+  document.getElementById('result-content').innerHTML = `
+    <div style="padding:40px 22px">
+      <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);margin-bottom:16px">Что-то пошло не так</div>
+      <div class="error-box">Edge Function ещё не задеплоена. Следуй инструкции в README чтобы задеплоить функцию в Supabase.<br><br>Ошибка: ${msg}</div>
+      <button class="btn-skip" style="width:100%" onclick="go('s-home')">Назад</button>
+    </div>
+  `;
+  go('s-result');
+}
+
+// ══ SHEET ══
+function closeSheet(e) {
+  if (!e || e.target === document.getElementById('sheet-overlay')) {
+    document.getElementById('sheet-overlay').classList.remove('open');
+  }
+}
+
+// ══ ИНИТ ══
+window.addEventListener('load', () => {
+  const savedName = localStorage.getItem('kla_name');
+  if (savedName) {
+    state.name = savedName;
+    state.lifeContext = JSON.parse(localStorage.getItem('kla_context') || '[]');
+    setupHome();
+    go('s-home');
+  }
+  const now = new Date();
+  const days = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  document.getElementById('home-date').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+});
+</script>
+</body>
+</html>
