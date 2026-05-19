@@ -1,0 +1,19 @@
+{
+  "name": "Кла — решения без сожалений",
+  "short_name": "Кла",
+  "description": "Умный помощник для разбора решений",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#061710",
+  "theme_color": "#061710",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
